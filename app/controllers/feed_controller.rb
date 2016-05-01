@@ -1,4 +1,5 @@
 class FeedController < ApplicationController
+  before_action :find_user, only: [:index, :bookmark, :bookmarks]
 
   def index
     Entry.update_from_feed("https://www.reddit.com/r/technology/.rss")
@@ -13,9 +14,26 @@ class FeedController < ApplicationController
   end
 
   def bookmark
+    @entry = Entry.find(feed_params[:entry_id])
+    unless @users.entries.include? @entry
+      @user.entries << @entry
+    end
+    respond_to do |format|
+      format.json { head :no_content }
+    end
   end
 
   def bookmarks
+    @entries = @user.entries
   end
+
+  private
+    def feed_params
+      params.permit(:entry_id)
+    end
+
+    def find_user
+      @user = User.find(params[:id])
+    end
 
 end

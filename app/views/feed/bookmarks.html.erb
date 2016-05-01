@@ -1,0 +1,11 @@
+<p>Signed in as : <%= @user.username %></p>
+<%= link_to h("Back to feed"), "/user/#{@user.id}/index" %>
+
+<div id="tech_posts">
+  <h3>Favorites:</h3>
+  <ul>
+  <% for entry in @entries %>
+    <li><%= link_to h(entry.name), entry.url %></li>
+  <% end %>
+  </ul>
+</div>
