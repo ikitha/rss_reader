@@ -1,4 +1,5 @@
 class Entry < ActiveRecord::Base
+  has_and_belongs_to_many :users
 
   def self.update_from_feed(feed_url)
     feed = Feedjira::Feed.fetch_and_parse(feed_url)
