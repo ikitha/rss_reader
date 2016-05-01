@@ -15,7 +15,7 @@ class FeedController < ApplicationController
 
   def bookmark
     @entry = Entry.find(feed_params[:entry_id])
-    unless @users.entries.include? @entry
+    unless @user.entries.include? @entry
       @user.entries << @entry
     end
     respond_to do |format|
@@ -24,12 +24,12 @@ class FeedController < ApplicationController
   end
 
   def bookmarks
-    @entries = @user.entries
+    @entries = @user.entries.order(:published_at => 'desc')
   end
 
   private
     def feed_params
-      params.permit(:entry_id)
+      params.permit(:entry_id, :user_id, :id)
     end
 
     def find_user

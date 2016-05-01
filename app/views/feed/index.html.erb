@@ -1,11 +1,17 @@
-<p>Signed in as : <%= @user.username %></p>
-<%= link_to h("My Bookmarks"), "/user/#{@user.id}/bookmarks" %>
+<div>
+<h3>Signed in as : <em><%= @user.username %></em></h3>
+<button class="btn btn-info navigation"><%= link_to h("My Bookmarks"), "/user/#{@user.id}/bookmarks" %></button>
+</div>
 
 <div id="tech_posts">
-  <h3>Reddit Technology</h3>
+  <h3>Reddit Technology Feed</h3>
   <ul>
   <% for entry in Entry.all.limit(10).order(:published_at => 'desc') %>
-    <li><%= link_to h(entry.name), entry.url %><button class="bookmark" value="<%= entry.id %>">Bookmark</button></li>
+    <li class="well well-sm"><%= link_to h(entry.name), entry.url %>
+        <button type="button" class="bookmark btn btn-warning btn-sm" value="<%= entry.id %>" aria-label="Left Align">
+          <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+        </button>
+    </li>
   <% end %>
   </ul>
 </div>
@@ -25,10 +31,11 @@
           $('#tech_posts ul').empty();
           data.entries.forEach(function (data) {
             $('#tech_posts ul').append(
-              $('<li>').append(
+              $('<li class="well well-sm">').append(
                 $('<a>').attr('href',data.url).append(data.name).append(
-                  $('<button class="bookmark">').attr('value',data.id).append("Bookmark")
-            )));
+                  $('<button class="bookmark btn btn-warning btn-sm" aria-label="Left Align">').attr('value', data.id).append(
+                    $('<span class="glyphicon glyphicon-star" aria-hidden="true">')
+            ))));
           });
         },
         error: function () {
@@ -40,7 +47,8 @@
   $(document).ready(setInterval(refreshFeed, 60000));
 
   $(document).on('click', '.bookmark', function(e) {
-    var entry_id = $(e.target).val();
+    var entry_id = $(e.target).parent().val();
+    console.log($(e.target).parent().val());
     $.ajax({
         url: ('/user/' + user_id + '/index'),  //Server script to process data
         type: 'POST',

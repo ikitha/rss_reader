@@ -1,11 +1,13 @@
-<p>Signed in as : <%= @user.username %></p>
-<%= link_to h("Back to feed"), "/user/#{@user.id}/index" %>
+<div>
+<h3>Signed in as : <em><%= @user.username %></em></h3>
+<button class="btn btn-info navigation"><%= link_to h("Back to feed"), "/user/#{@user.id}/index" %></button>
+</div>
 
-<div id="tech_posts">
-  <h3>Favorites:</h3>
+<div>
+  <h3>Bookmarked:</h3>
   <ul>
   <% for entry in @entries %>
-    <li><%= link_to h(entry.name), entry.url %></li>
+    <li class="well well-sm"><%= link_to h(entry.name), entry.url %></li>
   <% end %>
   </ul>
 </div>
