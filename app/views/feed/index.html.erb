@@ -6,11 +6,14 @@
 <div id="tech_posts">
   <h3>Reddit Technology Feed</h3>
   <ul>
-  <% for entry in Entry.all.limit(10).order(:published_at => 'desc') %>
-    <li class="well well-sm"><%= link_to h(entry.name), entry.url %>
-        <button type="button" class="bookmark btn btn-warning btn-sm" value="<%= entry.id %>" aria-label="Left Align">
+  <% for entry in Entry.all.limit(25).order(:published_at => 'desc') %>
+    <li>
+      <div class="well well-sm entry">
+        <%= link_to h(entry.name), entry.url %>
+        <button type="button" class="bookmark btn btn-warning btn-sm pull-right" value="<%= entry.id %>" aria-label="Left Align">
           <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
         </button>
+      </div>
     </li>
   <% end %>
   </ul>
@@ -21,34 +24,11 @@
 <% end %>
 
 <script>
-  var refreshFeed = function () {
-    $.ajax({
-        url: '/entries',  //Server script to process data
-        type: 'GET',
-        dataType: 'json',
-        //Ajax events
-        success: function (data) {
-          $('#tech_posts ul').empty();
-          data.entries.forEach(function (data) {
-            $('#tech_posts ul').append(
-              $('<li class="well well-sm">').append(
-                $('<a>').attr('href',data.url).append(data.name).append(
-                  $('<button class="bookmark btn btn-warning btn-sm" aria-label="Left Align">').attr('value', data.id).append(
-                    $('<span class="glyphicon glyphicon-star" aria-hidden="true">')
-            ))));
-          });
-        },
-        error: function () {
-            console.log("oops");
-        }
-    });
-  };
-
   $(document).ready(setInterval(refreshFeed, 60000));
 
   $(document).on('click', '.bookmark', function(e) {
     var entry_id = $(e.target).parent().val();
-    console.log($(e.target).parent().val());
+
     $.ajax({
         url: ('/user/' + user_id + '/index'),  //Server script to process data
         type: 'POST',

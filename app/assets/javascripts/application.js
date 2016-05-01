@@ -14,3 +14,28 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+var refreshFeed = function () {
+    $.ajax({
+        url: '/entries',  //Server script to process data
+        type: 'GET',
+        dataType: 'json',
+        //Ajax events
+        success: function (data) {
+          $('#tech_posts ul').empty();
+          data.entries.forEach(function (data) {
+            $('#tech_posts ul').append(
+              $('<li>').append(
+                $('<div class="well well-sm entry">').append(
+                  $('<a>').attr('href',data.url).append(data.name))
+                .append(
+                  $('<button class="bookmark btn btn-warning btn-sm pull-right" aria-label="Left Align">').attr('value', data.id).append(
+                    $('<span class="glyphicon glyphicon-star" aria-hidden="true">')))
+            ));
+          });
+        },
+        error: function () {
+            console.log("oops");
+        }
+    });
+  };

@@ -14,8 +14,7 @@
  *= require_self
  */
 .bookmark {
-  float: right;
-  margin-bottom: 25px;
+  margin-bottom: 10px;
 }
 
 a {
@@ -27,4 +26,12 @@ a {
 .navigation a {
   color: white;
   font-size: 1em;
+}
+
+.entry {
+  height: 3.5em;
+}
+
+.entry a {
+  margin-top: 10px;
 }
