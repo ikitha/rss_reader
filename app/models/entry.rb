@@ -1,7 +1,6 @@
 class Entry < ActiveRecord::Base
 
   def self.update_from_feed(feed_url)
-    puts "hello"
     feed = Feedjira::Feed.fetch_and_parse(feed_url)
     puts feed
     add_entries(feed.entries)

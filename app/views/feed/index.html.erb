@@ -6,3 +6,28 @@
   <% end %>
   </ul>
 </div>
+
+<script>
+  var refreshFeed = function () {
+    $.ajax({
+        url: '/entries',  //Server script to process data
+        type: 'GET',
+        dataType: 'json',
+        //Ajax events
+        success: function (data) {
+          $('#tech_posts ul').empty();
+          data.entries.forEach(function (data) {
+            $('#tech_posts ul').append(
+              $('<li>').append(
+                $('<a>').attr('href',data.url).append(data.name)
+            ));
+          });
+        },
+        error: function () {
+            console.log("oops");
+        }
+    });
+  };
+
+  $(document).ready(setInterval(refreshFeed, 60000));
+</script>
