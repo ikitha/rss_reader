@@ -29,7 +29,10 @@ a {
 }
 
 .entry {
-  height: 3.5em;
+  overflow: hidden;
+  padding:10px;
+  margin-top:10px;
+  height:auto;
 }
 
 .entry a {
